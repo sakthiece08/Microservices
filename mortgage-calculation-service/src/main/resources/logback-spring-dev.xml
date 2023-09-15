@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<configuration>
+	<!-- Console appender configuration -->
+	<appender name="Console"
+                  class="ch.qos.logback.core.ConsoleAppender">
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %magenta([%thread]) ${PID} %highlight(%-5level) %-50logger{40} : %msg%n</Pattern>
+		</encoder>
+	</appender>
+	
+	<!-- Rolling file appender configuration -->
+	<appender name="RollingFile"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_FILE}</file>
+		<encoder
+                class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<!-- date,priority,class,thread, message, newline -->
+			<Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] ${PID} %-5level %-50logger{40} : %msg%n</Pattern>
+		</encoder>
+		<rollingPolicy
+                class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rollover daily and when the file reaches 5 MegaBytes -->
+			<!-- %- increment the log files to 1.2...n -->
+			<fileNamePattern>${LOG_PATH}/archived/log_%d{dd-MM-yyyy}_%i.log
+            </fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>1MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+			<maxHistory>10</maxHistory>
+			<totalSizeCap>50MB</totalSizeCap>
+		</rollingPolicy>
+	</appender>
+	
+	<!-- Log levels -->
+	<root level="info">
+		<appender-ref ref="Console" />
+	</root>
+	<logger  name="com.teqmonic" level="info" additivity="false">
+		<appender-ref ref="Console" />
+		<appender-ref ref="RollingFile" />
+	</logger>
+</configuration>

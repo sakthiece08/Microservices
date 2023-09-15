@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<configuration>
+	<appender name="Console"
+                  class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %magenta([%thread]) ${PID} %highlight(%-5level) %-50logger{40} : %msg%n</Pattern>
+		</layout>
+	</appender>
+	
+	
+	<appender name="RollingFile"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_FILE}</file>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<!-- date,priority,class,thread, message, newline -->
+			<Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] ${PID} %-5level %-50logger{40} : %msg%n</Pattern>
+		</encoder>
+		
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+      <!-- rollover daily & on size-->
+      <maxFileSize>3KB</maxFileSize>
+      <fileNamePattern>
+        ${LOG_PATH}/archived/log_%d{dd-MM-yyyy}_%i.log
+      </fileNamePattern>
+      <maxHistory>10</maxHistory>
+      <totalSizeCap>100KB</totalSizeCap>
+      <!-- <cleanHistoryOnStart>true</cleanHistoryOnStart>-->
+    </rollingPolicy>
+    
+	</appender>
+	
+	
+	<root level="info">
+		<appender-ref ref="Console" />
+		<appender-ref ref="RollingFile" />
+	</root>
+	<logger  name="com.teqmonic" level="info" additivity="false">
+		<appender-ref ref="Console" />
+		<appender-ref ref="RollingFile" />
+	</logger>
+</configuration>

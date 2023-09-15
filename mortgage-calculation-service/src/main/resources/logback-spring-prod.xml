@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<configuration>
+
+    <appender name="RollingFile"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_FILE}</file>
+        <encoder
+                class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!-- date,priority,class,thread, message, newline -->
+            <Pattern>%d %p %C{50} [%t] %m%n</Pattern>
+
+        </encoder>
+
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- rollover daily and when the file reaches 5 MegaBytes -->
+            <!-- %- increment the log files to 1.2...n -->
+				<fileNamePattern>${LOG_FILE}/archived/mortgage-calculation-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+				<maxFileSize>5MB</maxFileSize>
+				<maxHistory>30</maxHistory>
+				<totalSizeCap>1000MB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="RollingFile" />
+    </root>
+    
+    <logger name="com.teqmonic" level="info" additivity="false">
+       <appender-ref ref="RollingFile" />
+    </logger>
+    
+    <logger name="org.springframework" level="warn" additivity="false">
+       <appender-ref ref="RollingFile" />
+    </logger>
+    
+    <logger name="org.hibernate" level="warn" additivity="false">
+       <appender-ref ref="RollingFile" />
+    </logger>
+</configuration>
