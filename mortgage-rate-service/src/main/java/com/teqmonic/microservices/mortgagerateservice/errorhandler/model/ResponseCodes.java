@@ -9,7 +9,7 @@ import lombok.Getter;
 @Getter
 public enum ResponseCodes {
 
-	INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, Severity.ERROR, HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), "ERR_MORT_100"),
+	INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, Severity.ERROR, HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), "ERR_MORT_RATE_100"),
 	RESOURCE_NOT_FOUND(HttpStatus.NOT_FOUND, Severity.ERROR, "The requested resource not found", "ERR_MORT_101");
 
 	private HttpStatus httpStatus;
