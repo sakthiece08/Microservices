@@ -5,24 +5,20 @@ package com.teqmonic.microservices.mortgagerateservice.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
-import com.teqmonic.microservices.mortgagerateservice.bean.MortgageRateRequest;
 import com.teqmonic.microservices.mortgagerateservice.bean.MortgageRates;
 import com.teqmonic.microservices.mortgagerateservice.bean.MortgageRatesResponseData;
 import com.teqmonic.microservices.mortgagerateservice.enitity.MortgageProfileEntity;
 import com.teqmonic.microservices.mortgagerateservice.errorhandler.ResourceNotFoundException;
 import com.teqmonic.microservices.mortgagerateservice.errorhandler.model.ResponseCodes;
-import com.teqmonic.microservices.mortgagerateservice.jpa.repository.MortgageProfileRespository;
-import com.teqmonic.microservices.mortgagerateservice.service.util.ProfileRatingEnum;
+import com.teqmonic.microservices.mortgagerateservice.repository.MortgageProfileRespository;
 
 import lombok.extern.slf4j.Slf4j;
 

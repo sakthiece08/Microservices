@@ -11,7 +11,9 @@ public class ApiErrorResponse {
 
 	private String errorCode;
 	private String errorMessage;
-	private LocalDateTime timeStamp;
+	@Builder.Default
+	private LocalDateTime timeStamp = LocalDateTime.now();
 	private String path;
+	private String status;
 
 }

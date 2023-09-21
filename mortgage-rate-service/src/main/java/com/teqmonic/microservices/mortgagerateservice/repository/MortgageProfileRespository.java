@@ -1,4 +1,4 @@
-package com.teqmonic.microservices.mortgagerateservice.jpa.repository;
+package com.teqmonic.microservices.mortgagerateservice.repository;
 
 import java.util.List;
 
