@@ -48,7 +48,7 @@ public class MortgageRateService {
 
 		List<MortgageRates> mortgageRatesList = new ArrayList<>();
 		List<MortgageProfileEntity> mortgageData = mortgageProfileRespository.findAll();
-		
+		log.info("minMortgageRate {}", minMortgageRate);
 		if (!ObjectUtils.isEmpty(mortgageData)) {
 		    log.info("MortgageProfileEntity List: {}", mortgageData.toString());
 			mortgageRatesList = mortgageData.stream()

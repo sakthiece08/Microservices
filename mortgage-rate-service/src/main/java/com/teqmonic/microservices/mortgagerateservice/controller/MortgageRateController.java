@@ -22,7 +22,7 @@ public class MortgageRateController {
 	
 	private final MortgageRateService mortgageRateService;
 	
-	@GetMapping("/mortgage-rate")
+	@GetMapping("/mortgage-rates")
 	public ResponseEntity<MortgageRatesResponseData> getAllMortgageRates() {
 		MortgageRatesResponseData response = mortgageRateService.getAllMortgageRates();
 		log.info("MortgageRatesResponseData {}", response);
@@ -32,7 +32,7 @@ public class MortgageRateController {
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
-	@GetMapping("/mortgage-rate/{profileCode}")
+	@GetMapping("/mortgage-rates/{profileCode}")
 	public ResponseEntity<MortgageRatesResponseData> getMortgageRate(@PathVariable String profileCode) {
 		log.info("profile code {}", profileCode);
 		MortgageRatesResponseData response = mortgageRateService.getMortgageRateByProfileCode(profileCode);
