@@ -21,6 +21,7 @@ import com.teqmonic.microservices.mortgagecalculationservice.bean.MortgageRates;
 import com.teqmonic.microservices.mortgagecalculationservice.bean.MortgageRatesResponseData;
 import com.teqmonic.microservices.mortgagecalculationservice.bean.MortgageRequest;
 import com.teqmonic.microservices.mortgagecalculationservice.bean.MortgageResponse;
+import com.teqmonic.microservices.mortgagecalculationservice.configurations.RestTemplateConfig;
 import com.teqmonic.microservices.mortgagecalculationservice.errorhandler.ResourceNotFoundException;
 import com.teqmonic.microservices.mortgagecalculationservice.errorhandler.model.ResponseCodes;
 
@@ -35,8 +36,9 @@ public class MortgageCalculationService {
 	@Autowired
 	private RestTemplate restTemplate;
 	
-	@Value("${mortgage-rate.url}")
-	private String mortgageRateUrl;
+	@Autowired
+	private RestTemplateConfig restTemplateConfig;
+	
 
 	/**
 	 * @return
@@ -47,8 +49,8 @@ public class MortgageCalculationService {
 		MortgageRatesResponseData mortgageRatesResponseData = new MortgageRatesResponseData();
 		//mortgageRatesResponseData = convertJsonToJava(MORTAGE_RATE_SUCCESS_RESPONSE_FILE,
 			//	MortgageRatesResponseData.class);
-		logger.info("mortgageRateUrl {} ", mortgageRateUrl);
-		ResponseEntity<MortgageRatesResponseData> responseEntity = restTemplate.getForEntity(mortgageRateUrl, MortgageRatesResponseData.class, mortgageRequest.getProfileRating());
+		logger.info("mortgageRateUrl {} ", (restTemplateConfig.getEndpoints().getGetMortgageRateByProfile()));
+		ResponseEntity<MortgageRatesResponseData> responseEntity = restTemplate.getForEntity(restTemplateConfig.getEndpoints().getGetMortgageRateByProfile(), MortgageRatesResponseData.class, mortgageRequest.getProfileRating());
 		mortgageRatesResponseData = responseEntity.getBody();
 		
 		
