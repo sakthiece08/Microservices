@@ -17,25 +17,33 @@ import com.teqmonic.microservices.mortgagecalculationservice.bean.MortgageReques
 import com.teqmonic.microservices.mortgagecalculationservice.bean.MortgageResponse;
 import com.teqmonic.microservices.mortgagecalculationservice.service.MortgageCalculationService;
 
+import lombok.RequiredArgsConstructor;
+
 /**
  * 
  */
 @RestController
 @RequestMapping("/api/v1")
+@RequiredArgsConstructor
 public class MortgageCalculationController {
 	
 	Logger logger = LoggerFactory.getLogger(MortgageCalculationController.class);
 	
-	private MortgageCalculationService mortgageCalculationService;
-
-	public MortgageCalculationController(MortgageCalculationService mortgageCalculationService) {
-		this.mortgageCalculationService = mortgageCalculationService;
-	}
+	private final MortgageCalculationService mortgageCalculationService;
 
 	@GetMapping("/mortgage-details")
 	public ResponseEntity<MortgageResponse> getMortgageDetails(@RequestHeader(name = "x-isMockResponse", required = false) boolean isMockResponse, @RequestBody MortgageRequest mortgageRequest) {
 		logger.info("Mortgage Request {}", mortgageRequest);
-		MortgageResponse mortgageResponse = mortgageCalculationService.getMortgageDetails(isMockResponse, mortgageRequest);
+		MortgageResponse mortgageResponse = mortgageCalculationService.getMortgageDetails(isMockResponse, false, mortgageRequest);
+		
+		logger.info("Mortgage Response {}", mortgageResponse);
+		return new ResponseEntity<MortgageResponse>(mortgageResponse, HttpStatus.OK);
+	}
+	
+	@GetMapping("/mortgage-details-feign")
+	public ResponseEntity<MortgageResponse> getMortgageDetailsFeign(@RequestHeader(name = "x-isMockResponse", required = false) boolean isMockResponse, @RequestBody MortgageRequest mortgageRequest) {
+		logger.info("Mortgage Request {}", mortgageRequest);
+		MortgageResponse mortgageResponse = mortgageCalculationService.getMortgageDetails(isMockResponse, true, mortgageRequest);
 		
 		logger.info("Mortgage Response {}", mortgageResponse);
 		return new ResponseEntity<MortgageResponse>(mortgageResponse, HttpStatus.OK);

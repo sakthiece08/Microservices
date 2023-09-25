@@ -28,6 +28,7 @@ import com.teqmonic.microservices.mortgagecalculationservice.bean.MortgageRespon
 import com.teqmonic.microservices.mortgagecalculationservice.configurations.RestTemplateConfig;
 import com.teqmonic.microservices.mortgagecalculationservice.errorhandler.ResourceNotFoundException;
 import com.teqmonic.microservices.mortgagecalculationservice.errorhandler.model.ResponseCodes;
+import com.teqmonic.microservices.mortgagecalculationservice.openfeign.iMortgageRateProxy;
 
 import lombok.RequiredArgsConstructor;
 
@@ -37,23 +38,32 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class MortgageCalculationService {
-	
+
 	Logger logger = LoggerFactory.getLogger(MortgageCalculationService.class);
 	
-	private RestTemplate restTemplate;
+	// @RequiredArgsConstructor will initialize only below private access modifiers objects
 	
-	private RestTemplateConfig restTemplateConfig;
+	private final RestTemplate restTemplate;
+	
+	private final RestTemplateConfig restTemplateConfig;
+	
+	private final iMortgageRateProxy mortgageRateProxy;
 	
 
 	/**
 	 * @return
 	 */
-	public MortgageResponse getMortgageDetails(boolean isMockResponse, MortgageRequest mortgageRequest) {
+	public MortgageResponse getMortgageDetails(boolean isMockResponse, boolean isFeignProxy, MortgageRequest mortgageRequest) {
 		logger.info("Start of getMortgageDetails {} ", mortgageRequest);
 		
 		MortgageRatesResponseData mortgageRatesResponseData = new MortgageRatesResponseData();
 		if (isMockResponse) {
 			mortgageRatesResponseData = convertJsonToJava(MORTAGE_RATE_SUCCESS_RESPONSE_FILE, MortgageRatesResponseData.class);
+		}
+		
+		else if (isFeignProxy) {
+			ResponseEntity<MortgageRatesResponseData> responseEntity = mortgageRateProxy.getMortgageDetailsFeign(mortgageRequest.getProfileRating());
+			mortgageRatesResponseData = responseEntity.getBody();
 		}
 		else {
 			logger.info("mortgageRateUrl {} ", (restTemplateConfig.getEndpoints().getGetMortgageRateByProfile()));
