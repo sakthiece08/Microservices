@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,9 +33,10 @@ public class MortgageCalculationController {
 	}
 
 	@GetMapping("/mortgage-details")
-	public ResponseEntity<MortgageResponse> getMortgageDetails(@RequestBody MortgageRequest mortgageRequest) {
+	public ResponseEntity<MortgageResponse> getMortgageDetails(@RequestHeader(name = "x-isMockResponse", required = false) boolean isMockResponse, @RequestBody MortgageRequest mortgageRequest) {
 		logger.info("Mortgage Request {}", mortgageRequest);
-		MortgageResponse mortgageResponse = mortgageCalculationService.getMortgageDetails(mortgageRequest);
+		MortgageResponse mortgageResponse = mortgageCalculationService.getMortgageDetails(isMockResponse, mortgageRequest);
+		
 		logger.info("Mortgage Response {}", mortgageResponse);
 		return new ResponseEntity<MortgageResponse>(mortgageResponse, HttpStatus.OK);
 	}
