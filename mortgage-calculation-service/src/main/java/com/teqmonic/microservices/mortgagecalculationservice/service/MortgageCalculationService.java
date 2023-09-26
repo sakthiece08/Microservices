@@ -10,7 +10,9 @@ import static com.teqmonic.microservices.mortgagecalculationservice.service.util
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -57,6 +59,43 @@ public class MortgageCalculationService {
 		logger.info("Start of getMortgageDetails {} ", mortgageRequest);
 		
 		MortgageRatesResponseData mortgageRatesResponseData = new MortgageRatesResponseData();
+		mortgageRatesResponseData = orchestrateEndpointCall(isMockResponse, isFeignProxy, mortgageRequest);
+			
+		if (ObjectUtils.isEmpty(mortgageRatesResponseData.getMortgageRates())) {
+			throw new ResourceNotFoundException(ResponseCodes.RESOURCE_NOT_FOUND, "No mortgage details availble for the given request criteria");
+		}
+		 
+		MortgageResponse mortgageResponse = populateResponse(mortgageRequest, mortgageRatesResponseData);
+		logger.info("End of getMortgageDetails {} ", mortgageResponse);
+		return mortgageResponse;
+	}
+	
+	public MortgageResponse getMortgageDetailsGroupByProfileCode(boolean isMockResponse, boolean isFeignProxy, MortgageRequest mortgageRequest) {
+		logger.info("Start of getMortgageDetails {} ", mortgageRequest);
+		
+		MortgageRatesResponseData mortgageRatesResponseData = new MortgageRatesResponseData();
+		mortgageRatesResponseData = orchestrateEndpointCall(isMockResponse, isFeignProxy, mortgageRequest);
+			
+		if (ObjectUtils.isEmpty(mortgageRatesResponseData.getMortgageRates())) {
+			throw new ResourceNotFoundException(ResponseCodes.RESOURCE_NOT_FOUND, "No mortgage details availble for the given request criteria");
+		}
+		 
+		MortgageResponse mortgageResponse = populateResponseGroupByProfileCode(mortgageRequest, mortgageRatesResponseData);
+		logger.info("End of getMortgageDetails {} ", mortgageResponse);
+		return mortgageResponse;
+	}
+
+	/**
+	 * Call either stub, Feign client or Rest template
+	 * 
+	 * @param isMockResponse
+	 * @param isFeignProxy
+	 * @param mortgageRequest
+	 * @return
+	 */
+	private MortgageRatesResponseData orchestrateEndpointCall(boolean isMockResponse, boolean isFeignProxy,
+			MortgageRequest mortgageRequest) {
+		MortgageRatesResponseData mortgageRatesResponseData;
 		if (isMockResponse) {
 			mortgageRatesResponseData = convertJsonToJava(MORTAGE_RATE_SUCCESS_RESPONSE_FILE, MortgageRatesResponseData.class);
 		}
@@ -72,23 +111,15 @@ public class MortgageCalculationService {
 					mortgageRequest.getProfileRating());
 			mortgageRatesResponseData = responseEntity.getBody();
 		}
-			
-		if (ObjectUtils.isEmpty(mortgageRatesResponseData.getMortgageRates())) {
-			throw new ResourceNotFoundException(ResponseCodes.RESOURCE_NOT_FOUND, "No mortgage details availble for the given request criteria");
-		}
-		 
-		MortgageResponse mortgageResponse = populateResponse(mortgageRequest, mortgageRatesResponseData);
-		logger.info("End of getMortgageDetails {} ", mortgageResponse);
-		return mortgageResponse;
+		return mortgageRatesResponseData;
 	}
 
 	private MortgageResponse populateResponse(MortgageRequest mortgageRequest, MortgageRatesResponseData mortgageRatesResponseData) {
 		// populate response data
 		MortgageResponse mortgageResponse = new MortgageResponse();
-		List<MortgageDetailsResponse> mortgageDetailsList = new ArrayList<>();
 		mortgageResponse.setMortgageAmount(mortgageRequest.getMortgageAmount());
 
-		mortgageDetailsList = Optional.ofNullable(mortgageRatesResponseData)
+		List<MortgageDetailsResponse> mortgageDetailsList = Optional.ofNullable(mortgageRatesResponseData)
 				.map(MortgageRatesResponseData::getMortgageRates)
 				.map(List::stream).orElseGet(Stream::empty)
 				.map(mortgageRates -> MortgageDetailsResponse.builder().amortization(mortgageRates.getAmortization())
@@ -100,6 +131,26 @@ public class MortgageCalculationService {
 				.toList();
 		
 		mortgageResponse.setMortgageDetails(mortgageDetailsList);
+		return mortgageResponse;
+	}
+	
+	private MortgageResponse populateResponseGroupByProfileCode(MortgageRequest mortgageRequest, MortgageRatesResponseData mortgageRatesResponseData) {
+		// populate response data
+		MortgageResponse mortgageResponse = new MortgageResponse();
+		mortgageResponse.setMortgageAmount(mortgageRequest.getMortgageAmount());
+
+		Map<String, List<MortgageDetailsResponse>> mortgageDetailsMap = Optional.ofNullable(mortgageRatesResponseData)
+		.map(MortgageRatesResponseData::getMortgageRates)
+		.map(List::stream).orElseGet(Stream::empty)
+		.map(mortgageRates -> MortgageDetailsResponse.builder().amortization(mortgageRates.getAmortization())
+				.mortgageRate(mortgageRates.getMortgageRate()).mortgageType(mortgageRates.getMortgageType())
+				.paymentFrequency(mortgageRequest.getPaymentFrequency())
+				.profileRating(mortgageRates.getProfileRating())
+				.mortgagePayment(calculateMortgagePayment(mortgageRates, mortgageRequest.getMortgageAmount()))
+				.build())
+		.collect(Collectors.groupingBy(MortgageDetailsResponse::getProfileRating)); // group by ProfileRating
+		
+		mortgageResponse.setMortgageDetailsMap(mortgageDetailsMap);
 		return mortgageResponse;
 	}
 

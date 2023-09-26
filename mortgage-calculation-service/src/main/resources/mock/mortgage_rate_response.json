@@ -11,6 +11,13 @@
 			"mortgage_rate": 6,
 			"mortgage_type": "closed",
 			"profile_rating": "A"
+		},
+		{
+		
+			"amortization_period": 10,
+			"mortgage_rate": 7,
+			"mortgage_type": "closed",
+			"profile_rating": "B"
 		}
 	]
 }

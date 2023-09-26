@@ -5,6 +5,7 @@ package com.teqmonic.microservices.mortgagecalculationservice.bean;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -35,4 +36,7 @@ public class MortgageResponse {
 	
 	@JsonProperty("mortgage_details")
 	private List<MortgageDetailsResponse> mortgageDetails;
+	
+	@JsonProperty("mortgage_details_grouping")
+	private Map<String, List<MortgageDetailsResponse>> mortgageDetailsMap;
 }

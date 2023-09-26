@@ -48,4 +48,13 @@ public class MortgageCalculationController {
 		logger.info("Mortgage Response {}", mortgageResponse);
 		return new ResponseEntity<MortgageResponse>(mortgageResponse, HttpStatus.OK);
 	}
+	
+	@GetMapping("/mortgage-details-groupby-profilecode")
+	public ResponseEntity<MortgageResponse> getMortgageDetailsGroupByProfile(@RequestHeader(name = "x-isMockResponse", required = false) boolean isMockResponse, @RequestBody MortgageRequest mortgageRequest) {
+		logger.info("Mortgage Request {}", mortgageRequest);
+		MortgageResponse mortgageResponse = mortgageCalculationService.getMortgageDetailsGroupByProfileCode(isMockResponse, false, mortgageRequest);
+		
+		logger.info("Mortgage Response {}", mortgageResponse);
+		return new ResponseEntity<MortgageResponse>(mortgageResponse, HttpStatus.OK);
+	}
 }
