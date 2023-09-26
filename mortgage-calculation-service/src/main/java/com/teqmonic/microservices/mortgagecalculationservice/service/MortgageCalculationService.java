@@ -131,6 +131,7 @@ public class MortgageCalculationService {
 				.toList();
 		
 		mortgageResponse.setMortgageDetails(mortgageDetailsList);
+		mortgageResponse.setEnvironment(mortgageRatesResponseData.getEnvironment());
 		return mortgageResponse;
 	}
 	

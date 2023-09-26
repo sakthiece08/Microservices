@@ -24,5 +24,8 @@ public class MortgageRatesResponseData {
 	
 	@JsonProperty("mortgage_rates")
 	private List<MortgageRates> mortgageRates;
+	
+	@JsonProperty("environment")
+	private String environment;
 
 }

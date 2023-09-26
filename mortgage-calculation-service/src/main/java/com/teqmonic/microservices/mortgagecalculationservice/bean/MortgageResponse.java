@@ -23,7 +23,7 @@ import lombok.ToString;
  */
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({ "mortgageAmount" })
+@JsonPropertyOrder({ "mortgage_amount", "mortgage_details", "mortgage_details_grouping", "environment" })
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -39,4 +39,7 @@ public class MortgageResponse {
 	
 	@JsonProperty("mortgage_details_grouping")
 	private Map<String, List<MortgageDetailsResponse>> mortgageDetailsMap;
+	
+	@JsonProperty("environment")
+	private String environment;
 }
