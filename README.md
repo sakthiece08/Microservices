@@ -10,3 +10,4 @@
 | Mortgage Calculation Service | 8000, 8001, 8002, ..  |
 | Mortgage Rate Service | 8100, 8101, 8102, ... |
 | Eureka Naming Server http://localhost:8761 | 8761 |
+| Api Gateway | 8765 |
