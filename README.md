@@ -12,4 +12,4 @@
 | Eureka Naming Server http://localhost:8761 | 8761 |
 | Api Gateway | 8765 |
 
-![name-of-you-image](https://www.figma.com/file/br7372k3v6L4DS08B60cLN/Spring-Boot---Logging-Architecture?type=design&node-id=0-1&mode=design&t=Z2Y22FnUSROUplP9-0)
+![name-of-you-image](https://github.com/sakthiece08/Microservices/blob/master/mortgage-calculation-service/src/main/resources/img/Mortgage_calc-API.JPG)https://github.com/sakthiece08/Microservices/blob/master/mortgage-calculation-service/src/main/resources/img/Mortgage_calc-API.JPG)
