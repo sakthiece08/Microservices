@@ -5,7 +5,7 @@
      "amortization_period": 10,
      "mortgage_rate": 5,
      "payment_frequency": "monthly",
-     "mortgage_payment": 3000,
+     "mortgage_payment": "$3000",
      "profile_rating": "A",
      "mortgage_type": "open"
     },
@@ -13,7 +13,7 @@
      "amortization_period": 20,
      "mortgage_rate": 6,
      "payment_frequency": "monthly",
-     "mortgage_payment": 2400,
+     "mortgage_payment": "$2400,
      "profile_rating": "A",
      "mortgage_type": "closed"
     }

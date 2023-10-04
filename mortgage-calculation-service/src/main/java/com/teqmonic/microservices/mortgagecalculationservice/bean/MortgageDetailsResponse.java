@@ -1,7 +1,5 @@
 package com.teqmonic.microservices.mortgagecalculationservice.bean;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -31,7 +29,7 @@ public class MortgageDetailsResponse {
 	private String paymentFrequency;
 	
 	@JsonProperty("mortgage_payment")
-	private BigDecimal mortgagePayment;
+	private String mortgagePayment;
 	
 	@JsonProperty("profile_rating")
 	private String profileRating;

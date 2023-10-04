@@ -32,7 +32,8 @@ public class MortgageCalculationController {
 	private final MortgageCalculationService mortgageCalculationService;
 
 	@GetMapping("/mortgage-details")
-	public ResponseEntity<MortgageResponse> getMortgageDetails(@RequestHeader(name = "x-isMockResponse", required = false) boolean isMockResponse, @RequestBody MortgageRequest mortgageRequest) {
+	public ResponseEntity<MortgageResponse> getMortgageDetails(@RequestHeader(name = "x-isMockResponse", required = false) boolean isMockResponse,
+			@RequestBody MortgageRequest mortgageRequest) {
 		logger.info("Mortgage Request {}", mortgageRequest);
 		MortgageResponse mortgageResponse = mortgageCalculationService.getMortgageDetails(isMockResponse, false, mortgageRequest);
 		
@@ -41,7 +42,8 @@ public class MortgageCalculationController {
 	}
 	
 	@GetMapping("/mortgage-details-feign")
-	public ResponseEntity<MortgageResponse> getMortgageDetailsFeign(@RequestHeader(name = "x-isMockResponse", required = false) boolean isMockResponse, @RequestBody MortgageRequest mortgageRequest) {
+	public ResponseEntity<MortgageResponse> getMortgageDetailsFeign(@RequestHeader(name = "x-isMockResponse", required = false) boolean isMockResponse,
+			@RequestBody MortgageRequest mortgageRequest) {
 		logger.info("Mortgage Request {}", mortgageRequest);
 		MortgageResponse mortgageResponse = mortgageCalculationService.getMortgageDetails(isMockResponse, true, mortgageRequest);
 		
@@ -50,11 +52,13 @@ public class MortgageCalculationController {
 	}
 	
 	@GetMapping("/mortgage-details-groupby-profilecode")
-	public ResponseEntity<MortgageResponse> getMortgageDetailsGroupByProfile(@RequestHeader(name = "x-isMockResponse", required = false) boolean isMockResponse, @RequestBody MortgageRequest mortgageRequest) {
+	public ResponseEntity<MortgageResponse> getMortgageDetailsGroupByProfile(@RequestHeader(name = "x-isMockResponse", required = false) boolean isMockResponse,
+			@RequestBody MortgageRequest mortgageRequest) {
 		logger.info("Mortgage Request {}", mortgageRequest);
 		MortgageResponse mortgageResponse = mortgageCalculationService.getMortgageDetailsGroupByProfileCode(isMockResponse, false, mortgageRequest);
 		
 		logger.info("Mortgage Response {}", mortgageResponse);
 		return new ResponseEntity<MortgageResponse>(mortgageResponse, HttpStatus.OK);
 	}
+	
 }

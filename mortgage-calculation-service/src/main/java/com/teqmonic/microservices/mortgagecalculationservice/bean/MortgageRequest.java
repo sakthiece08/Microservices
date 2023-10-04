@@ -5,11 +5,13 @@ import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter
+@Builder
 @ToString
 public class MortgageRequest {
 

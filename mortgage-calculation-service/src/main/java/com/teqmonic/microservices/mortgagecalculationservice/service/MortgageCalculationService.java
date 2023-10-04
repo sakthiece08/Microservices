@@ -8,8 +8,9 @@ import static com.teqmonic.microservices.mortgagecalculationservice.service.util
 import static com.teqmonic.microservices.mortgagecalculationservice.service.util.Constants.MORTAGE_RATE_SUCCESS_RESPONSE_FILE;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,11 +28,12 @@ import com.teqmonic.microservices.mortgagecalculationservice.bean.MortgageRates;
 import com.teqmonic.microservices.mortgagecalculationservice.bean.MortgageRatesResponseData;
 import com.teqmonic.microservices.mortgagecalculationservice.bean.MortgageRequest;
 import com.teqmonic.microservices.mortgagecalculationservice.bean.MortgageResponse;
-import com.teqmonic.microservices.mortgagecalculationservice.configurations.RestTemplateConfig;
+import com.teqmonic.microservices.mortgagecalculationservice.configurations.EndPointConfig;
 import com.teqmonic.microservices.mortgagecalculationservice.errorhandler.ResourceNotFoundException;
 import com.teqmonic.microservices.mortgagecalculationservice.errorhandler.model.ResponseCodes;
 import com.teqmonic.microservices.mortgagecalculationservice.openfeign.iMortgageRateProxy;
 
+import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -47,14 +49,17 @@ public class MortgageCalculationService {
 	
 	private final RestTemplate restTemplate;
 	
-	private final RestTemplateConfig restTemplateConfig;
+	private final EndPointConfig endPointConfig;
 	
 	private final iMortgageRateProxy mortgageRateProxy;
+	
+	private final ExchangeRateService exchangeRateService;
 	
 
 	/**
 	 * @return
 	 */
+	@Retry(name="default", fallbackMethod = "getMortgageDetailsFromCache")
 	public MortgageResponse getMortgageDetails(boolean isMockResponse, boolean isFeignProxy, MortgageRequest mortgageRequest) {
 		logger.info("Start of getMortgageDetails {} ", mortgageRequest);
 		
@@ -84,6 +89,15 @@ public class MortgageCalculationService {
 		logger.info("End of getMortgageDetails {} ", mortgageResponse);
 		return mortgageResponse;
 	}
+	
+	public MortgageResponse getMortgageDetailsFromCache(boolean isMockResponse, boolean isFeignProxy, MortgageRequest mortgageRequest, Exception ex) {
+		logger.info("Start of getMortgageDetailsFromCache {} ");
+		
+		MortgageRatesResponseData mortgageRatesResponseData = convertJsonToJava(MORTAGE_RATE_SUCCESS_RESPONSE_FILE, MortgageRatesResponseData.class);
+		MortgageResponse mortgageResponse = populateResponse(mortgageRequest, mortgageRatesResponseData);
+		logger.info("End of getMortgageDetailsFromCache {} ");
+		return mortgageResponse;
+	}
 
 	/**
 	 * Call either stub, Feign client or Rest template
@@ -105,9 +119,9 @@ public class MortgageCalculationService {
 			mortgageRatesResponseData = responseEntity.getBody();
 		}
 		else {
-			logger.info("mortgageRateUrl {} ", (restTemplateConfig.getEndpoints().getGetMortgageRateByProfile()));
+			logger.info("mortgageRateUrl {} ", (endPointConfig.getEndpoints().getMortgageRateByProfile()));
 			ResponseEntity<MortgageRatesResponseData> responseEntity = restTemplate.getForEntity(
-					restTemplateConfig.getEndpoints().getGetMortgageRateByProfile(), MortgageRatesResponseData.class,
+					endPointConfig.getEndpoints().getMortgageRateByProfile(), MortgageRatesResponseData.class,
 					mortgageRequest.getProfileRating());
 			mortgageRatesResponseData = responseEntity.getBody();
 		}
@@ -155,14 +169,17 @@ public class MortgageCalculationService {
 		return mortgageResponse;
 	}
 
+	
 	/**
 	 * @param mortgageRates
 	 * @param mortgageAmount
 	 * @return
 	 */
-	private BigDecimal calculateMortgagePayment(MortgageRates mortgageRates, BigDecimal mortgageAmount) {
+	private String calculateMortgagePayment(MortgageRates mortgageRates, BigDecimal mortgageAmount) {
 		long mortgageValue = (long) (((mortgageRates.getMortgageRate() / 100) / 12) * mortgageAmount.longValue());
-		return new BigDecimal(mortgageValue);
+		// convert above mortgageValue which is in CAD to USD by getting exchange rate
+		double exchageRate = exchangeRateService.getExchangeRate(Optional.empty(), "CAD_USD").exchageRate();
+		return NumberFormat.getCurrencyInstance(Locale.US).format(mortgageValue * exchageRate);
 	}
 
 }

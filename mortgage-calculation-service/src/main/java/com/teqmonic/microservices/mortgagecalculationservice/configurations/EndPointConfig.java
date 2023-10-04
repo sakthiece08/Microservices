@@ -13,18 +13,21 @@ import lombok.Setter;
 @Validated
 @Configuration
 @ConfigurationProperties("mortgage-calculation")
-public class RestTemplateConfig {
-	
+public class EndPointConfig {
+
 	@Valid
-	private MortgageRateEndPoints endpoints = new MortgageRateEndPoints(); 
-	
+	private MortgageRateEndPoints endpoints = new MortgageRateEndPoints();
+
 	@Getter
 	@Setter
 	public class MortgageRateEndPoints {
-		
+
 		@NotEmpty
-		private String getMortgageRateByProfile;
-		
-	}	
+		private String mortgageRateByProfile;
+
+		@NotEmpty
+		private String exchangeRate;
+
+	}
 
 }
