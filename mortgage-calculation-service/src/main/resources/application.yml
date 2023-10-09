@@ -1,0 +1,56 @@
+spring:
+ application.name: mortgage-calculation
+ config.import: optional:configserver:http://localhost:8888
+ profiles.active: local
+
+server.port: 8000
+
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health.show-details: "ALWAYS"
+    
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      registerHealthIndicator: true
+      automaticTransitionFromOpenToHalfOpenEnabled: true
+      waitDurationInOpenState: 5s
+      failureRateThreshold: 50
+      slowCallRateThreshold: 100
+      slowCallDurationThreshold: 3s
+      ignoreExceptions:
+        - org.springframework.web.client.HttpClientErrorException
+        - feign.FeignException.FeignClientException
+  instances:
+    ExchangeRateService:
+      baseConfig: default
+      slidingWindowSize: 10
+      minimumNumberOfCalls: 4
+      permittedNumberOfCallsInHalfOpenState: 2
+      eventConsumerBufferSize: 100
+      slidingWindowType: count-based 
+    MortgageDetails:
+      baseConfig: default
+      slidingWindowSize: 10
+      minimumNumberOfCalls: 4
+      permittedNumberOfCallsInHalfOpenState: 2
+      eventConsumerBufferSize: 100
+      slidingWindowType: count-based
+
+
+
+eureka.client.serviceUrl.defaultZone: http://localhost:8761/eureka
+
+# Generic logback config file
+#logging.config=src\\main\\resources\\logback-spring.xml
+
+mortgage-calculation.lenders.list: CIBC, RBC, National Bank, bmo
+
+x-api-Key.exchangeRate: EDU9WuZru2fhvELNeXpo7A==Mw6U0978YuomC3W2
