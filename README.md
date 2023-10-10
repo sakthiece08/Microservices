@@ -14,3 +14,7 @@
 
 ### High Level Architecture
 ![name-of-you-image](https://github.com/sakthiece08/Microservices/blob/master/mortgage-calculation-service/src/main/resources/img/Mortgage_calc-API.JPG)
+
+Please refer to my below blogs related to Microservices fault tolerence and resilience architecture:
+https://medium.com/@Teqmonic/microservices-pattern-series-1-fault-tolerance-and-resilience-in-depth-e16c7dd20dcb
+https://medium.com/@Teqmonic/microservices-pattern-series-2-circuit-breaker-with-resilience4j-a706d1dddf39
