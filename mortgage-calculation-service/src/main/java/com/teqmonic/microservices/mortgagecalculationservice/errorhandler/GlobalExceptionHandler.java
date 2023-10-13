@@ -3,12 +3,14 @@ package com.teqmonic.microservices.mortgagecalculationservice.errorhandler;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.context.request.ServletWebRequest;
 
 import com.teqmonic.microservices.mortgagecalculationservice.errorhandler.model.ApiErrorResponse;
 import com.teqmonic.microservices.mortgagecalculationservice.errorhandler.model.ResponseCodes;
 
+import feign.FeignException.FeignClientException;
 import lombok.extern.slf4j.Slf4j;
 
 @ControllerAdvice
@@ -24,6 +26,31 @@ public class GlobalExceptionHandler {
 				.build();
 		log.error(ex.getMessage(), ex.getCause());
 		return new ResponseEntity<ApiErrorResponse>(apiErrorResponse, ex.getResponseCodes().getHttpStatus());
+	}
+	
+	// Covers 4xx exceptions.
+	@ExceptionHandler(HttpClientErrorException.class)
+	public ResponseEntity<ApiErrorResponse> handleRestClientEx(HttpClientErrorException ex, ServletWebRequest request) {
+		ApiErrorResponse apiErrorResponse = ApiErrorResponse.builder() .errorCode(ResponseCodes.BAD_REQUEST.getErrorCode())
+				.errorMessage(ResponseCodes.BAD_REQUEST.getErrorReason())
+				.path(request.getRequest().getRequestURI())
+				.status(ResponseCodes.BAD_REQUEST.getStatus())
+				.additionalDetails(ex.getResponseBodyAsString().replace("\\\"", ""))
+				.build();
+		log.error(ex.getMessage(), ex.getCause());
+		return new ResponseEntity<ApiErrorResponse>(apiErrorResponse, ResponseCodes.BAD_REQUEST.getHttpStatus());
+	}
+	
+	@ExceptionHandler(FeignClientException.class)
+	public ResponseEntity<ApiErrorResponse> handleFeignClientEx(FeignClientException ex, ServletWebRequest request) {
+		ApiErrorResponse apiErrorResponse = ApiErrorResponse.builder() .errorCode(ResponseCodes.BAD_REQUEST.getErrorCode())
+				.errorMessage(ResponseCodes.BAD_REQUEST.getErrorReason())
+				.path(request.getRequest().getRequestURI())
+				.status(ResponseCodes.BAD_REQUEST.getStatus())
+				.additionalDetails(ex.getMessage().replace("\\\"", ""))
+				.build();
+		log.error(ex.getMessage(), ex.getCause());
+		return new ResponseEntity<ApiErrorResponse>(apiErrorResponse, ResponseCodes.BAD_REQUEST.getHttpStatus());
 	}
 	
 	@ExceptionHandler(RestClientResponseException.class)

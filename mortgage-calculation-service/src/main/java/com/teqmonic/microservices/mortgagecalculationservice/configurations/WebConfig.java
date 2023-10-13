@@ -26,8 +26,8 @@ public class WebConfig {
 		// create reactor netty HTTP client
 		@SuppressWarnings("deprecation")
 		HttpClient httpClient = HttpClient.create().tcpConfiguration(tcpClient -> {
-			tcpClient = tcpClient.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 3000);
-			tcpClient = tcpClient.doOnConnected(conn -> conn.addHandlerLast(new ReadTimeoutHandler(3)));
+			tcpClient = tcpClient.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 1000);
+			tcpClient = tcpClient.doOnConnected(conn -> conn.addHandlerLast(new ReadTimeoutHandler(1)));
 			return tcpClient;
 		});
 		// create a client http connector using above http client

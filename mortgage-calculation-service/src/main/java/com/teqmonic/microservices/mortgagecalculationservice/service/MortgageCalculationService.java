@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import com.teqmonic.microservices.mortgagecalculationservice.bean.MortgageDetailsResponse;
@@ -33,7 +34,9 @@ import com.teqmonic.microservices.mortgagecalculationservice.errorhandler.Resour
 import com.teqmonic.microservices.mortgagecalculationservice.errorhandler.model.ResponseCodes;
 import com.teqmonic.microservices.mortgagecalculationservice.openfeign.iMortgageRateProxy;
 
-import io.github.resilience4j.retry.annotation.Retry;
+import feign.FeignException;
+import feign.FeignException.FeignClientException;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -57,9 +60,10 @@ public class MortgageCalculationService {
 	
 
 	/**
+	 * GetMortgageDetails with Circuit breaker
 	 * @return
 	 */
-	@Retry(name="default", fallbackMethod = "getMortgageDetailsFromCache")
+	@CircuitBreaker(name="MortgageDetails", fallbackMethod = "getMortgageDetailsFromCache")
 	public MortgageResponse getMortgageDetails(boolean isMockResponse, boolean isFeignProxy, MortgageRequest mortgageRequest) {
 		logger.info("Start of getMortgageDetails {} ", mortgageRequest);
 		
@@ -90,6 +94,25 @@ public class MortgageCalculationService {
 		return mortgageResponse;
 	}
 	
+	/**
+     * Fallback method for 4xx exceptions, just percolate the exception back.
+     */
+	public MortgageResponse getMortgageDetailsFromCache(HttpClientErrorException ex) {
+		logger.info("Rest client error from getMortgageDetails ");
+		throw ex;
+	}
+	
+	/**
+     * Fallback method for 4xx exceptions in case of Feign, just percolate the exception back.
+     */
+	public MortgageResponse getMortgageDetailsFromCache(FeignClientException ex) {
+		logger.info("Feign error in getMortgageDetailsFromCache ");
+		throw ex;
+	}
+	
+	/**
+     * Fallback method for all other exception types.
+     */
 	public MortgageResponse getMortgageDetailsFromCache(boolean isMockResponse, boolean isFeignProxy, MortgageRequest mortgageRequest, Exception ex) {
 		logger.info("Start of getMortgageDetailsFromCache {} ");
 		
@@ -107,8 +130,7 @@ public class MortgageCalculationService {
 	 * @param mortgageRequest
 	 * @return
 	 */
-	private MortgageRatesResponseData orchestrateEndpointCall(boolean isMockResponse, boolean isFeignProxy,
-			MortgageRequest mortgageRequest) {
+	private MortgageRatesResponseData orchestrateEndpointCall(boolean isMockResponse, boolean isFeignProxy, MortgageRequest mortgageRequest) {
 		MortgageRatesResponseData mortgageRatesResponseData;
 		if (isMockResponse) {
 			mortgageRatesResponseData = convertJsonToJava(MORTAGE_RATE_SUCCESS_RESPONSE_FILE, MortgageRatesResponseData.class);

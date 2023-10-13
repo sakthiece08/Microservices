@@ -10,6 +10,7 @@ import lombok.Getter;
 public enum ResponseCodes {
 
 	INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, Severity.ERROR, HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), "ERR_MORT_DET_100", "500"),
+	BAD_REQUEST(HttpStatus.BAD_REQUEST, Severity.ERROR, HttpStatus.BAD_REQUEST.getReasonPhrase(), "ERR_MORT_DET_101", "400"),
 	RESOURCE_NOT_FOUND(HttpStatus.NOT_FOUND, Severity.ERROR, "The requested resource not found", "ERR_MORT_DET_101", "404");
 
 	private HttpStatus httpStatus;

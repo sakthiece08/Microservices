@@ -1,0 +1,612 @@
+{
+	"info": {
+		"_postman_id": "b83c2076-c021-4db3-b6a9-5eb9a23e25fa",
+		"name": "v3 MS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2931585"
+	},
+	"item": [
+		{
+			"name": "mortgage-details",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "x-isMockResponse",
+						"value": "true",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"mortgage_amount\": 100000,\r\n    \"profile_rating\": \"A\",\r\n    \"payment_frequency\": \"monthly\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/mortgage-details",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"mortgage-details"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "mortgage-lenders",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "x-isMockResponse",
+						"value": "false",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"mortgage_amount\": 100000,\r\n    \"profile_rating\": \"A\",\r\n    \"payment_frequency\": \"monthly\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/mortgage-details",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"mortgage-details"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "exchangerate",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "x-api-Key",
+						"value": "EDU9WuZru2fhvELNeXpo7A==Mw6U0978YuomC3W2",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8000/api/v1/exchangerate?pair=CAD_USD",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"exchangerate"
+					],
+					"query": [
+						{
+							"key": "pair",
+							"value": "CAD_USD"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "mortgage-details-groupby-profilecode",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "x-isMockResponse",
+						"value": "true",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"mortgage_amount\": 100000,\r\n    \"profile_rating\": \"A\",\r\n    \"payment_frequency\": \"monthly\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/mortgage-details",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"mortgage-details"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Api-gateway-mortgage-details-groupby-profilecode",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "x-isMockResponse",
+						"value": "true",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"mortgage_amount\": 100000,\r\n    \"profile_rating\": \"A\",\r\n    \"payment_frequency\": \"monthly\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8765/mortgage-calculation/api/v1/mortgage-details",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8765",
+					"path": [
+						"mortgage-calculation",
+						"api",
+						"v1",
+						"mortgage-details"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Api-gateway-mortgage-details-groupby-profilecode v2",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "x-isMockResponse",
+						"value": "true",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"mortgage_amount\": 100000,\r\n    \"profile_rating\": \"A\",\r\n    \"payment_frequency\": \"monthly\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8765/api/v1/mortgage-details",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8765",
+					"path": [
+						"api",
+						"v1",
+						"mortgage-details"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "mortgage-details-feign",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "x-isMockResponse",
+						"value": "false",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"mortgage_amount\": 100000,\r\n    \"profile_rating\": \"A\",\r\n    \"payment_frequency\": \"monthly\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/mortgage-details-feign",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"mortgage-details-feign"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Api-gateway-mortgage-details-feign",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "x-isMockResponse",
+						"value": "false",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"mortgage_amount\": 100000,\r\n    \"profile_rating\": \"A\",\r\n    \"payment_frequency\": \"monthly\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8765/mortgage-calculation/api/v1/mortgage-details-feign",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8765",
+					"path": [
+						"mortgage-calculation",
+						"api",
+						"v1",
+						"mortgage-details-feign"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Api-gateway-mortgage-details-feign v1",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "x-isMockResponse",
+						"value": "false",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"mortgage_amount\": 100000,\r\n    \"profile_rating\": \"A\",\r\n    \"payment_frequency\": \"monthly\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8765/api/v1/mortgage-details-feign",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8765",
+					"path": [
+						"api",
+						"v1",
+						"mortgage-details-feign"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Api-gateway-mortgage-details-feign url rewrite",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "x-isMockResponse",
+						"value": "false",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"mortgage_amount\": 100000,\r\n    \"profile_rating\": \"A\",\r\n    \"payment_frequency\": \"monthly\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8765/api/v1/mortgage-details-new",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8765",
+					"path": [
+						"api",
+						"v1",
+						"mortgage-details-new"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "mortgage-rates",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"mortgage_amount\": 100000,\r\n    \"profile_rating\": \"A\",\r\n    \"payment_frequency\": \"monthly\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8100/api/v1/mortgage-rates",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8100",
+					"path": [
+						"api",
+						"v1",
+						"mortgage-rates"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Api-gateway-mortgage-rates",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"mortgage_amount\": 100000,\r\n    \"profile_rating\": \"A\",\r\n    \"payment_frequency\": \"monthly\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8765/mortgage-rate/api/v1/mortgage-rates",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8765",
+					"path": [
+						"mortgage-rate",
+						"api",
+						"v1",
+						"mortgage-rates"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Api-gateway-mortgage-rates v2",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"mortgage_amount\": 100000,\r\n    \"profile_rating\": \"A\",\r\n    \"payment_frequency\": \"monthly\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8765/mortgage-rate/api/v1/mortgage-rates",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8765",
+					"path": [
+						"mortgage-rate",
+						"api",
+						"v1",
+						"mortgage-rates"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "mortgage-rates by profile code",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"mortgage_amount\": 100000,\r\n    \"profile_rating\": \"A\",\r\n    \"payment_frequency\": \"monthly\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8765/MORTGAGE-RATE/api/v1/mortgage-rates/A",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8765",
+					"path": [
+						"MORTGAGE-RATE",
+						"api",
+						"v1",
+						"mortgage-rates",
+						"A"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "APi-gateway-mortgage-rates by profile code",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"mortgage_amount\": 100000,\r\n    \"profile_rating\": \"A\",\r\n    \"payment_frequency\": \"monthly\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8765/mortgage-rate/api/v1/mortgage-rates/A",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8765",
+					"path": [
+						"mortgage-rate",
+						"api",
+						"v1",
+						"mortgage-rates",
+						"A"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "APi-gateway-mortgage-rates by profile code v2",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"mortgage_amount\": 100000,\r\n    \"profile_rating\": \"A\",\r\n    \"payment_frequency\": \"monthly\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8765/api/v1/mortgage-rates/A",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8765",
+					"path": [
+						"api",
+						"v1",
+						"mortgage-rates",
+						"A"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

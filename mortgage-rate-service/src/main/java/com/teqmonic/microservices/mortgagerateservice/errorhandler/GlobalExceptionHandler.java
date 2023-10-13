@@ -3,6 +3,7 @@ package com.teqmonic.microservices.mortgagerateservice.errorhandler;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.context.request.ServletWebRequest;
 
 import com.teqmonic.microservices.mortgagerateservice.errorhandler.model.ApiErrorResponse;
@@ -25,6 +26,18 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<ApiErrorResponse>(apiErrorResponse, ex.getResponseCodes().getHttpStatus());
 	}
 	
+	
+	@ExceptionHandler(HttpClientErrorException.class)
+	public ResponseEntity<ApiErrorResponse> handleRestClientEx(HttpClientErrorException ex, ServletWebRequest request) {
+		ApiErrorResponse apiErrorResponse = ApiErrorResponse.builder()
+				.errorCode(ResponseCodes.BAD_REQUEST.getErrorCode())
+				.errorMessage(ResponseCodes.BAD_REQUEST.getErrorReason()).path(request.getRequest().getRequestURI())
+				.status(ResponseCodes.BAD_REQUEST.getStatus()).build();
+		log.error(ex.getMessage(), ex.getCause());
+		return new ResponseEntity<ApiErrorResponse>(apiErrorResponse, ResponseCodes.BAD_REQUEST.getHttpStatus());
+	}
+	 
+
 	@ExceptionHandler(RuntimeException.class)
 	public ResponseEntity<ApiErrorResponse> handleResourceNotFoundEx(RuntimeException ex, ServletWebRequest request) {
 		ApiErrorResponse apiErrorResponse = ApiErrorResponse.builder() .errorCode(ResponseCodes.INTERNAL_SERVER_ERROR.getErrorCode())
