@@ -155,9 +155,10 @@ public class MortgageCalculationService {
 		MortgageResponse mortgageResponse = new MortgageResponse();
 		mortgageResponse.setMortgageAmount(mortgageRequest.getMortgageAmount());
 
-		List<MortgageDetailsResponse> mortgageDetailsList = Optional.ofNullable(mortgageRatesResponseData)
+		List<MortgageDetailsResponse> mortgageDetailsList = Optional.ofNullable(mortgageRatesResponseData).stream()
 				.map(MortgageRatesResponseData::getMortgageRates)
-				.map(List::stream).orElseGet(Stream::empty)
+				.flatMap(List::stream)
+				//.map(List::stream).orElseGet(Stream::empty)
 				.map(mortgageRates -> MortgageDetailsResponse.builder().amortization(mortgageRates.getAmortization())
 						.mortgageRate(mortgageRates.getMortgageRate()).mortgageType(mortgageRates.getMortgageType())
 						.paymentFrequency(mortgageRequest.getPaymentFrequency())
