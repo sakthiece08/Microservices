@@ -20,8 +20,9 @@ public class ApiGatewayConfiguration {
 						.uri("lb://mortgage-calculation"))
 				.route(p -> p.path("/api/v1/mortgage-details-feign/**")
 						.uri("lb://mortgage-calculation"))
-				.route(p -> p.path("/api/v1/mortgage-details-new")
-						.filters(f->f.rewritePath("/api/v1/mortgage-details-new/(?<segment>.*)", "/api/v1/mortgage-details-feign/${segment}"))
+				.route(p -> p.path("/mortgage-details-new")
+						//.filters(f->f.rewritePath("/api/v1/mortgage-details-new/(?<segment>.*)", "/api/v1/mortgage-details-feign/${segment}"))
+						.filters(f->f.rewritePath("/mortgage-details-new", "/api/v1/mortgage-details-feign"))
 						.uri("lb://mortgage-calculation"))
 				.build();
 	}
