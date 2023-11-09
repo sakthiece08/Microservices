@@ -11,6 +11,7 @@
 | Mortgage Rate Service | 8100, 8101, 8102, ... |
 | Eureka Naming Server http://localhost:8761 | 8761 |
 | Api Gateway | 8765 |
+| Zipkin Distributed tracing server | 9411 |
 
 ### High Level Architecture
 ![name-of-you-image](https://github.com/sakthiece08/Microservices/blob/master/mortgage-calculation-service/src/main/resources/img/Mortgage_calc-API.JPG)
