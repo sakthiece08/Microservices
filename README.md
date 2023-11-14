@@ -6,3 +6,6 @@
 - https://hub.docker.com/
 - sakthiece08/mortgage-rate-service:0.0.1-SNAPSHOT
 - sakthiece08/mortgage-calculation-service:0.0.1-SNAPSHOT
+
+### Maven build image
+mvn spring-boot:build-image -DskipTest
