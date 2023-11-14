@@ -41,3 +41,12 @@ https://medium.com/@Teqmonic/microservices-pattern-series-2-circuit-breaker-with
 <artifactId>opentelemetry-exporter-zipkin</artifactId>
 </dependency>
 ```
+configurations
+```
+management.tracing.sampling.probability=0.9
+logging.pattern.level=%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]
+```
+Zipkin image
+```
+docker run -p 9411:9411 openzipkin/zipkin
+```
