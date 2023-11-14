@@ -25,20 +25,20 @@ https://medium.com/@Teqmonic/microservices-pattern-series-2-circuit-breaker-with
 
 ```
 <dependency>
-<groupId>io.micrometer</groupId>
-<artifactId>micrometer-observation</artifactId>
+ <groupId>io.micrometer</groupId>
+ <artifactId>micrometer-observation</artifactId>
 </dependency>
 
 <!-- OPTION 1: Open Telemetry as Bridge (RECOMMENDED) -->
 <!-- Open Telemetry 
    - Simplified Observability (metrics, logs, and traces) -->
 <dependency>
-<groupId>io.micrometer</groupId>
-<artifactId>micrometer-tracing-bridge-otel</artifactId>
+ <groupId>io.micrometer</groupId>
+ <artifactId>micrometer-tracing-bridge-otel</artifactId>
 </dependency>
 <dependency>
-<groupId>io.opentelemetry</groupId>
-<artifactId>opentelemetry-exporter-zipkin</artifactId>
+ <groupId>io.opentelemetry</groupId>
+ <artifactId>opentelemetry-exporter-zipkin</artifactId>
 </dependency>
 ```
 configurations
