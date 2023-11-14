@@ -16,6 +16,15 @@
 ### High Level Architecture
 ![name-of-you-image](https://github.com/sakthiece08/Microservices/blob/master/mortgage-calculation-service/src/main/resources/img/Mortgage_calc-API.JPG)
 
+### Spring cloud config server
+Github repository: https://github.com/sakthiece08/spring-cloud-config
+
+links:
+ - http://localhost:8888/mortgage-calculation/dev
+ - http://localhost:8888/mortgage-calculation/local
+ - http://localhost:8888/mortgage-rate/dev
+ - http://localhost:8888/mortgage-rate/local
+
 Please refer to my below blogs related to Microservices fault tolerence and resilience architecture:
 https://medium.com/@Teqmonic/microservices-pattern-series-1-fault-tolerance-and-resilience-in-depth-e16c7dd20dcb
 
