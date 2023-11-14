@@ -11,3 +11,5 @@
 ```
 mvn spring-boot:build-image -DskipTest
 ```
+### Docker compose with profile
+https://windpoly.run/posts/docker-compose-profile/
