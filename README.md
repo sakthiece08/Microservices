@@ -20,3 +20,24 @@ Please refer to my below blogs related to Microservices fault tolerence and resi
 https://medium.com/@Teqmonic/microservices-pattern-series-1-fault-tolerance-and-resilience-in-depth-e16c7dd20dcb
 
 https://medium.com/@Teqmonic/microservices-pattern-series-2-circuit-breaker-with-resilience4j-a706d1dddf39
+
+### Integration with Micrometer and Zipkin
+
+```
+<dependency>
+<groupId>io.micrometer</groupId>
+<artifactId>micrometer-observation</artifactId>
+</dependency>
+
+<!-- OPTION 1: Open Telemetry as Bridge (RECOMMENDED) -->
+<!-- Open Telemetry 
+   - Simplified Observability (metrics, logs, and traces) -->
+<dependency>
+<groupId>io.micrometer</groupId>
+<artifactId>micrometer-tracing-bridge-otel</artifactId>
+</dependency>
+<dependency>
+<groupId>io.opentelemetry</groupId>
+<artifactId>opentelemetry-exporter-zipkin</artifactId>
+</dependency>
+```
