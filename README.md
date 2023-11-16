@@ -2,6 +2,9 @@
 
 # Docker
 
+## Buildpack
+paketobuildpacks/builder-jammy-base:latest
+
 ## Images
 - https://hub.docker.com/
 - sakthiece08/mortgage-rate-service:0.0.1-SNAPSHOT
