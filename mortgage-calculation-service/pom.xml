@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>com.teqmonic.microservices</groupId>
 	<artifactId>mortgage-calculation-service</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>mortgage-calculation-service</name>
 	<description>Spring Boot service to get mortgage details</description>
 	<properties>
@@ -88,6 +88,7 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
+			<version>1.18.30</version>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
@@ -119,8 +120,26 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<image>
+						<name>sakthiece08/${project.artifactId}:${project.version}</name>
+						<builder>paketobuildpacks/builder-jammy-base:latest</builder>
+					</image>
+					<layers>
+						<enabled>true</enabled>
+					</layers>
+					<pullPolicy>IF_NOT_PRESENT</pullPolicy>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
+
+	<repositories>
+		<repository>
+			<id>spring-milestones</id>
+			<name>Spring Milestones</name>
+			<url>https://repo.spring.io/milestone</url>
+		</repository>
+	</repositories>
 
 </project>
