@@ -1,22 +1,20 @@
-# Microservices
+#### Note: This is in continuation to the 'Master' branch, please refer to the Master branch readme file before coming here for better understanding
 
+# Docker
 
-### Ports
+## Buildpack
+paketobuildpacks/builder-jammy-base:latest
 
-|     Application       |     Port          |
-| ------------- | ------------- |
-| Limits Service | 8080, 8081, ... |
-| Spring Cloud Config Server | 8888 |
-| Mortgage Calculation Service | 8000, 8001, 8002, ..  |
-| Mortgage Rate Service | 8100, 8101, 8102, ... |
-| Eureka Naming Server http://localhost:8761 | 8761 |
-| Api Gateway | 8765 |
-| Zipkin Distributed tracing server | 9411 |
+## Images
+- https://hub.docker.com/
+- sakthiece08/mortgage-rate-service:0.0.1-SNAPSHOT
+- sakthiece08/mortgage-calculation-service:0.0.1-SNAPSHOT
+- sakthiece08/naming-server:0.0.1-SNAPSHOT
+- sakthiece08/api-gateway:0.0.1-SNAPSHOT
 
-### High Level Architecture
-![name-of-you-image](https://github.com/sakthiece08/Microservices/blob/master/mortgage-calculation-service/src/main/resources/img/Mortgage_calc-API.JPG)
-
-Please refer to my below blogs related to Microservices fault tolerence and resilience architecture:
-https://medium.com/@Teqmonic/microservices-pattern-series-1-fault-tolerance-and-resilience-in-depth-e16c7dd20dcb
-
-https://medium.com/@Teqmonic/microservices-pattern-series-2-circuit-breaker-with-resilience4j-a706d1dddf39
+### Maven build image
+```
+mvn spring-boot:build-image -DskipTest
+```
+### Docker compose with profile
+https://windpoly.run/posts/docker-compose-profile/
