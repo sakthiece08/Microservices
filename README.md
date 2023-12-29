@@ -11,6 +11,8 @@ paketobuildpacks/builder-jammy-base:latest
 - sakthiece08/mortgage-calculation-service:0.0.1-SNAPSHOT
 - sakthiece08/naming-server:0.0.1-SNAPSHOT
 - sakthiece08/api-gateway:0.0.1-SNAPSHOT
+- sakthiece08/spring-cloud-config-server:0.0.1-SNAPSHOT
+- openzipkin/zipkin:latest
 
 ### Maven build image
 ```
