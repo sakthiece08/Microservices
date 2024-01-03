@@ -17,6 +17,9 @@ https://hub.docker.com/
 ### Maven build image
 ```
 mvn spring-boot:build-image -DskipTest
+
+docker login
+docker push <image_name>
 ```
 ### Docker compose with profile
 https://windpoly.run/posts/docker-compose-profile/
