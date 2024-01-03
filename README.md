@@ -12,10 +12,11 @@ https://hub.docker.com/
 ```
 mvn spring-boot:build-image -DskipTest
 ```
-### Configure environment variable for Feign proxy
+### Configure environment variable for Feign proxy (Service Discovery)
 Service name = mortgage-rate
 
 Environment variable "MORTGAGE_RATE_SERVICE_HOST" is autmatically available in Kubernetes. Localhost is used only for local deployments.
+Whenever we launch a new POD, corresponding environment variable would be created "SERVICE_NAME_SERVICE_HOST"
 ```
 @FeignClient(name = "mortgage-rate", url = "${MORTGAGE_RATE_SERVICE_HOST:http://localhost}:8100")
 public interface iMortgageRateProxy {
@@ -36,3 +37,13 @@ watch -n 0.9 "curl 'http://34.122.149.185:8100/api/v1/mortgage-rates/A’ "
 curl -X GET 'http://34.28.34.161:8000/api/v1/mortgage-details-feign' -H "Content-Type: application/json" -d '{"mortgage_amount": 100000, "profile_rating": "A", "payment_frequency": "monthly"}'
 
 ```
+
+### Generate declarative configurations (YAML)
+```
+Kubectl get deployment mortgage-rate -o yaml >> deployment.yaml
+Kubectl get service mortgage-rate -o yaml >> service.yaml
+
+Kubectl diff -f deployment.yaml
+Kubectl apply -f deployment.yaml
+```
+After updating replicas as 2, we can see the requests are hitting both the Pods through Load Balancer.
