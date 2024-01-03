@@ -13,6 +13,7 @@ https://hub.docker.com/
 mvn spring-boot:build-image -DskipTest
 ```
 ### Configure environment variable for Feign proxy
+Service name = mortgage-rate
 
 Environment variable "MORTGAGE_RATE_SERVICE_HOST" is autmatically available in Kubernetes. Localhost is used only for local deployments.
 ```
@@ -21,4 +22,17 @@ public interface iMortgageRateProxy {
 	@GetMapping("/api/v1/mortgage-rates/{profileRating}")
 	public ResponseEntity<MortgageRatesResponseData> getMortgageDetailsFeign(@PathVariable String profileRating);
 }
+```
+### Kubernetes Deployment
+```
+Kubectl create deployment mortgage-rate --image=sakthiece08/mortgage-rate-service:0.0.11-SNAPSHOT
+Kubectl expose deployment mortgage-rate --type=LoadBalancer --port=8100
+
+Kubectl create deployment mortgage-calculation --image=sakthiece08/mortgage-calculation-service:0.0.12-SNAPSHOT
+Kubectl expose deployment mortgage-calculation --type=LoadBalancer --port=8000
+
+
+watch -n 0.9 "curl 'http://34.122.149.185:8100/api/v1/mortgage-rates/A’ "
+curl -X GET 'http://34.28.34.161:8000/api/v1/mortgage-details-feign' -H "Content-Type: application/json" -d '{"mortgage_amount": 100000, "profile_rating": "A", "payment_frequency": "monthly"}'
+
 ```
