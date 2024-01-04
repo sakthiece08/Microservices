@@ -47,3 +47,27 @@ Kubectl diff -f deployment.yaml
 Kubectl apply -f deployment.yaml
 ```
 After updating replicas as 2, we can see the requests are hitting both the Pods through Load Balancer.
+
+### Configure environment variables
+```
+template:
+    spec:
+      containers:
+      - image: sakthiece08/mortgage-calculation-service:0.0.12-SNAPSHOT
+        env:
+          - name: MORTGAGE_RATE_URI
+            value: http://mortgage-rate
+```
+
+### Configmap
+Instead of hardcoding above environment variables, Kubernetes provides Configmap to store the external environment variables
+```
+apiVersion: v1
+data:
+  MORTGAGE_RATE_URI: http://mortgage-rate
+kind: ConfigMap
+metadata:
+  name: mortgage-calculation
+  namespace: default
+
+```
