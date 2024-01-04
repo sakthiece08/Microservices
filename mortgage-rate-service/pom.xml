@@ -11,8 +11,8 @@
 	</parent>
 	<groupId>com.teqmonic.microservices</groupId>
 	<artifactId>mortgage-rate-service</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>mortgage-rate-service</name>
+	<version>0.0.12-SNAPSHOT</version> <!-- K8S change -->
+	<name>mortgage-rate-service-k8s</name> <!-- K8S change -->
 	<description>Spring Boot service to calculate mortgage rates from a
 		persistence layer</description>
 	<properties>
@@ -32,6 +32,8 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+		<!-- K8S change -->
+		<!--
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-config</artifactId>
@@ -40,6 +42,7 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
+		-->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -58,11 +61,14 @@
 			<groupId>io.micrometer</groupId>
 			<artifactId>micrometer-tracing-bridge-otel</artifactId>
 		</dependency>
-
+		
+        <!-- K8S change -->
+		<!--
 		<dependency>
 			<groupId>io.opentelemetry</groupId>
 			<artifactId>opentelemetry-exporter-zipkin</artifactId>
 		</dependency>
+		-->
 		<!-- Enables tracing of REST API calls made using Feign -->
 		<dependency>
 			<groupId>io.github.openfeign</groupId>
@@ -104,7 +110,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<image>
-						<name>${project.artifactId}:${project.version}</name>
+						<name>sakthiece08/${project.artifactId}:${project.version}</name>
 						<builder>paketobuildpacks/builder-jammy-base:latest</builder>
 					</image>
 					<pullPolicy>IF_NOT_PRESENT</pullPolicy>

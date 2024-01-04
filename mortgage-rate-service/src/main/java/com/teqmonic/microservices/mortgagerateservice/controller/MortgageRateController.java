@@ -1,5 +1,7 @@
 package com.teqmonic.microservices.mortgagerateservice.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +24,10 @@ public class MortgageRateController {
 	
 	private final MortgageRateService mortgageRateService;
 	
+	@Autowired
+	private Environment environment;
+	
+	
 	@GetMapping("/mortgage-rates")
 	public ResponseEntity<MortgageRatesResponseData> getAllMortgageRates() {
 		MortgageRatesResponseData response = mortgageRateService.getAllMortgageRates();
@@ -29,6 +35,9 @@ public class MortgageRateController {
 		if(response.getMortgageRates().isEmpty()) {
 			return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 		}
+		String port = environment.getProperty("local.server.port");
+		String host = environment.getProperty("HOSTNAME");
+		response.setEnvironment(port+ " V12 " + host);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
@@ -37,6 +46,9 @@ public class MortgageRateController {
 		log.info("profile code {}", profileCode);
 		MortgageRatesResponseData response = mortgageRateService.getMortgageRateByProfileCode(profileCode);
 		log.info("MortgageRatesResponseData {}", response);
+		String port = environment.getProperty("local.server.port");
+		String host = environment.getProperty("HOSTNAME");
+		response.setEnvironment(port+ " V12 " + host);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 

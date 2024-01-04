@@ -1,0 +1,7 @@
+apiVersion: v1
+data:
+  MORTGAGE_RATE_URI: http://mortgage-rate
+kind: ConfigMap
+metadata:
+  name: mortgage-calculation
+  namespace: default

@@ -1,5 +1,5 @@
 spring.application.name: mortgage-calculation
-spring.config.import: optional:configserver:http://localhost:8888
+#spring.config.import: optional:configserver:http://localhost:8888
 spring.profiles.active: local
 
 server.port: 8000
@@ -53,3 +53,9 @@ eureka.client.serviceUrl.defaultZone: http://localhost:8761/eureka
 mortgage-calculation.lenders.list: CIBC, RBC, National Bank, bmo
 
 x-api-Key.exchangeRate: EDU9WuZru2fhvELNeXpo7A==Mw6U0978YuomC3W2
+
+
+## CHANGE-KUBERNETES
+management.endpoint.health.probes.enabled: true
+management.health.livenessState.enabled: true
+management.health.readinessState.enabled: true

@@ -65,7 +65,7 @@ public class MortgageCalculationService {
 	 */
 	@CircuitBreaker(name="MortgageDetails", fallbackMethod = "getMortgageDetailsFromCache")
 	public MortgageResponse getMortgageDetails(boolean isMockResponse, boolean isFeignProxy, MortgageRequest mortgageRequest) {
-		logger.info("Start of getMortgageDetails {} ", mortgageRequest);
+		logger.info("Start of getMortgageDetails {}, isMockResponse {}, isFeignProxy {} ", mortgageRequest, isMockResponse, isFeignProxy);
 		
 		MortgageRatesResponseData mortgageRatesResponseData = new MortgageRatesResponseData();
 		mortgageRatesResponseData = orchestrateEndpointCall(isMockResponse, isFeignProxy, mortgageRequest);
@@ -114,7 +114,7 @@ public class MortgageCalculationService {
      * Fallback method for all other exception types.
      */
 	public MortgageResponse getMortgageDetailsFromCache(boolean isMockResponse, boolean isFeignProxy, MortgageRequest mortgageRequest, Exception ex) {
-		logger.info("Start of getMortgageDetailsFromCache {} ");
+		logger.info("Start of getMortgageDetailsFromCache {} ", ex);
 		
 		MortgageRatesResponseData mortgageRatesResponseData = convertJsonToJava(MORTAGE_RATE_SUCCESS_RESPONSE_FILE, MortgageRatesResponseData.class);
 		MortgageResponse mortgageResponse = populateResponse(mortgageRequest, mortgageRatesResponseData);
@@ -137,6 +137,7 @@ public class MortgageCalculationService {
 		}
 		
 		else if (isFeignProxy) {
+			logger.info("mortgageRateProxy {} ", mortgageRateProxy);
 			ResponseEntity<MortgageRatesResponseData> responseEntity = mortgageRateProxy.getMortgageDetailsFeign(mortgageRequest.getProfileRating());
 			mortgageRatesResponseData = responseEntity.getBody();
 		}
@@ -202,6 +203,7 @@ public class MortgageCalculationService {
 		long mortgageValue = (long) (((mortgageRates.getMortgageRate() / 100) / 12) * mortgageAmount.longValue());
 		// convert above mortgageValue which is in CAD to USD by getting exchange rate
 		double exchageRate = exchangeRateService.getExchangeRate(Optional.empty(), "CAD_USD").exchageRate();
+		logger.info("calculateMortgagePayment exchageRate {}" , exchageRate);
 		return NumberFormat.getCurrencyInstance(Locale.US).format(mortgageValue * exchageRate);
 	}
 
