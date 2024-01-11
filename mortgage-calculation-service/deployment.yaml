@@ -23,7 +23,7 @@ spec:
         app: mortgage-calculation
     spec:
       containers:
-      - image: sakthiece08/mortgage-calculation-service:0.0.11-SNAPSHOT
+      - image: sakthiece08/mortgage-calculation-service:0.0.12-SNAPSHOT
         imagePullPolicy: Always
         name: mortgage-calculation-service
         envFrom:

@@ -8,7 +8,7 @@ metadata:
   name: mortgage-rate
   namespace: default
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: mortgage-rate
@@ -23,9 +23,17 @@ spec:
         app: mortgage-rate
     spec:
       containers:
-      - image: sakthiece08/mortgage-rate-service:0.0.11-SNAPSHOT
+      - image: sakthiece08/mortgage-rate-service:0.0.12-SNAPSHOT
         imagePullPolicy: IfNotPresent
         name: mortgage-rate-service
+        readinessProbe:
+          httpGet:
+            port: 8100
+            path: /actuator/health/readiness
+        livenessProbe:
+          httpGet:
+            port: 8100
+            path: /actuator/health/liveness    
       restartPolicy: Always
       
 ---
